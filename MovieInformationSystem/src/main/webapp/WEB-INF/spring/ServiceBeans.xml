@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+ 
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/msrc" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<bean id="movieDao" class="com.ethicalprogrammers.mis.dao.MovieDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	
+	<bean id="userDao" class="com.ethicalprogrammers.mis.dao.UserDaoImpl">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+
+	<bean id="administratorService" class="com.ethicalprogrammers.mis.service.AdministratorServiceImpl">
+		<property name="movieDao" ref="movieDao"></property>
+	</bean>
+
+	<bean id="customerService" class="com.ethicalprogrammers.mis.service.CustomerServiceImpl">
+		<property name="movieDao" ref="movieDao"></property>
+	</bean>
+	
+	<bean id="userService" class="com.ethicalprogrammers.mis.service.UserServiceImpl">
+		<property name="userDao" ref="userDao"></property>
+	</bean>
+
+</beans>
